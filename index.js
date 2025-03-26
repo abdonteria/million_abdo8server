@@ -30,6 +30,10 @@ app.use(express.json()); // allowing to send json data
   - Routes
 */
 
+app.get("/", (req, res) => {
+  res.json({ message: "hello serverless!" });
+});
+
 // Routing Files
 const userRoutes = require("./routes/user.router.js");
 
@@ -47,8 +51,9 @@ const startServer = async () => {
   try {
     await dbConnection();
     const PORT = process.env.PORT || 3020;
+    console.log(PORT);
     app.listen(PORT, () => {
-      console.log(`🚀 Server running `);
+      console.log(`🚀 Server running http://localhost:${PORT}`);
     });
   } catch (error) {
     console.error("❌ Server Error: ", error);
