@@ -47,6 +47,8 @@ app.use((req, res, next) => {
   });
 });
 
+module.exports = app; // ← تأكد من وجود هذا السطر
+
 const startServer = async () => {
   try {
     await dbConnection();
