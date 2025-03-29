@@ -36,8 +36,20 @@ app.get("/", (req, res) => {
 
 // Routing Files
 const userRoutes = require("./routes/user.router.js");
+const authRoutes = require("./routes/auth.router.js");
 
 app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
 
 // Not Found 404
 app.use((req, res, next) => {
@@ -53,7 +65,6 @@ const startServer = async () => {
   try {
     await dbConnection();
     const PORT = process.env.PORT || 3020;
-    console.log(PORT);
     app.listen(PORT, () => {
       console.log(`🚀 Server running http://localhost:${PORT}`);
     });
